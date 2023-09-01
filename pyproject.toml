@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "aliancetrade-updates-and-arch"
+version = "0.1.0"
+description = ""
+authors = ["Sanek <heist2000@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+configparser = "^6.0.0"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.2"
+black = "^23.7.0"
+loguru = "^0.7.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
