@@ -1,9 +1,9 @@
 import os
 import requests
+from loguru import logger
 from bs4 import BeautifulSoup
 from support import download_file, kill_proc, rmfile
 from conf import VEDINFO_FTP, VEDINFO_VER, IS_VEDINFO
-from loguru import logger
 
 
 @logger.catch
@@ -25,13 +25,17 @@ def get_last_version() -> str | None:
         links = soup.find_all(
             "a", string=lambda text: text[3:5] == VEDINFO_VER)
         hrefs = [i.get("href") for i in links]
-        link = list(
-            filter(lambda text: str(max(int(i[6:8])
-                   for i in hrefs)) in text, hrefs))[0]
 
-        return link
+        if hrefs:
+            link = list(
+                filter(lambda text: str(max(int(i[6:8])
+                                            for i in hrefs)) in text, hrefs))[0]
+            return link
+
+        logger.info(f"VEDINFO_VER = {VEDINFO_VER}")
+        return None
     else:
-        logger.debug("VEDINFO_VER =", VEDINFO_VER)
+        logger.debug(f"VEDINFO_VER = {VEDINFO_VER}")
         return None
 
 
@@ -52,6 +56,8 @@ def start_update(file_name: str) -> None:
 
 @logger.catch
 def main() -> None:
+    logger.info("-=Start update VED_INFO=-")
+
     # Удаляем файлы прошлых обновлений.
     files_list = [file for file in os.listdir(r"./") if file.endswith(".rnw")]
     if files_list:

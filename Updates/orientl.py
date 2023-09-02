@@ -1,7 +1,7 @@
-from conf import IS_ORIENTL, ORIENTL_URL, ORIENTL_PATH
+from loguru import logger
 from zipfile import ZipFile
 from support import download_file, kill_proc, rmfile
-from loguru import logger
+from conf import IS_ORIENTL, ORIENTL_URL, ORIENTL_PATH
 
 
 @logger.catch
@@ -17,6 +17,8 @@ def unzip(path, file_name) -> bool | None:
 
 @logger.catch
 def main():
+    logger.info("-=Start update ORIENTL=-")
+
     if IS_ORIENTL:
         file_name = "orientl.zip"
         downloading = download_file(ORIENTL_URL, file_name)
@@ -28,7 +30,7 @@ def main():
         kill_proc(name="orientl.exe")
         unpacking = unzip(ORIENTL_PATH, file_name)
     else:
-        return None
+        return
 
     if unpacking:
         rmfile(file_name)

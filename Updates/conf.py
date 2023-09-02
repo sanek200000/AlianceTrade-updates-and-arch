@@ -4,7 +4,7 @@ from loguru import logger
 
 
 # Инициализация ini-фавйла
-conf_ini_path = abspath("./conf.ini")
+conf_ini_path = abspath("conf.ini")
 config = configparser.ConfigParser()
 config.read(conf_ini_path, encoding="cp1251")
 
@@ -32,7 +32,7 @@ IS_VEDINFO = int(config.get("DEFAULT", "ved_info").strip())
 VEDINFO_INI = config.get("VED_INFO", "ved_ini").strip()
 VEDINFO_FTP = config.get("VED_INFO", "url").strip()
 # TODO не забудь поменять путь на VEDINFO_INI перед компиляцией
-VEDINFO_VER = get_version(VEDINFO_INI)
+VEDINFO_VER = get_version('instcfg.ini')
 
 # ORIENTL
 IS_ORIENTL = int(config.get("DEFAULT", "orientl").strip())

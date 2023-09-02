@@ -1,6 +1,5 @@
-import requests
 import os
-from time import sleep
+import requests
 from loguru import logger
 
 
@@ -22,7 +21,7 @@ def download_file(url: str, file_name: str) -> bool:
             file.write(response.content)
         return True
     else:
-        logger.debug("support.download_file.response =", response)
+        logger.debug(f"support.download_file.response = {response}")
         return False
 
 
@@ -33,11 +32,15 @@ def kill_proc(name: str) -> None:
     Args:
         name (str): name of killing process
     """
-    try:
-        os.system(f"taskkill /f /im  {name}")
-        sleep(2)
-    except Exception:
-        logger.debug(f"Нет запущеных процессов {name}")
+    while True:
+        try:
+            killing = os.system(f"taskkill /f /im  {name}")
+            if killing == 0:
+                break
+        except Exception as ex:
+            logger.exception(f'support.kill_proc = {ex}')
+        finally:
+            break
 
 
 @logger.catch
@@ -47,3 +50,7 @@ def rmfile(file_name):
         logger.info(f"Файл {file_name} удален")
     except OSError as ex:
         logger.opt(exception=True).debug('Exception logged with debug level:')
+
+
+if __name__ == "__main__":
+    kill_proc('notepad.exe')

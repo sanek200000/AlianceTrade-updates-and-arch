@@ -12,6 +12,7 @@ requests = "^2.31.0"
 beautifulsoup4 = "^4.12.2"
 black = "^23.7.0"
 loguru = "^0.7.0"
+asyncio = "^3.4.3"
 
 
 [build-system]
